@@ -1,3 +1,18 @@
 Python module to send GELF (Graylog extended log format) messages
 
 See http://www.graylog2.org/gelf for more information.
+
+##################################
+# Example of gelf-python usage
+##################################
+from gelf import Client
+import json
+
+message['version'] = '1.0'
+message['short_message'] = 'Something happened'
+message['full_message'] = 'Stack trace\n\nMore data'
+message['host'] = 'www1'
+message['facility'] = 'graylog2-server'
+
+c = gelf.Client()
+c.log(json.dumps(message))

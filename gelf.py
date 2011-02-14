@@ -1,16 +1,15 @@
-class Message():
-	version = "1.0"
-	shortMessage = ""
-	fullMessage = ""
-	level = 0
-	host = ""
-	gfile = ""
-	line = 1
-	timestamp = ""
-	facility = 1
+from socket import *
+import zlib
 
 class Client():
-	graylog2_server = "127.0.0.1"
-	graylog2_port = 12201
-	lanMaxChunkSize = 1420
-	wanMaxChunkSize = 8154
+
+	def __init__(self, server='localhost', port=12201, maxChunkSize=8154):
+		self.graylog2_server = server
+		self.graylog2_port = port
+		self.maxChunkSize = maxChunkSize
+
+	def log(self, message):
+		UDPSock = socket(AF_INET,SOCK_DGRAM)
+		zmessage = zlib.compress(message)
+		UDPSock.sendto(zmessage,(self.graylog2_server,self.graylog2_port))
+		UDPSock.close()
